@@ -14,6 +14,7 @@ const buildControls = props => {
   ];
   return (
     <div className={classes.BuildControls}>
+      <p>Current price:<strong>{props.price}</strong></p>
       {controls.map(ctrl => {
         return <BuildControl 
         label={ctrl.label} 
@@ -30,6 +31,13 @@ const buildControls = props => {
 buildControls.propType = {
   addIngredient: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
+  disabledInfo: PropTypes.shape({
+    salad: PropTypes.bool,
+    bacon: PropTypes.bool,
+    cheese: PropTypes.bool,
+    meat: PropTypes.bool,
+  }).isRequired,
+  price: PropTypes.number.isRequired,
 }
 
 export default buildControls;

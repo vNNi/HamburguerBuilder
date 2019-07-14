@@ -20,6 +20,7 @@ BuildControl.propTypes = {
   label: PropTypes.string.isRequired,
   addIngredient: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 export default BuildControl;
