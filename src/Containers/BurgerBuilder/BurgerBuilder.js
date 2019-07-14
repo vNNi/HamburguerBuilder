@@ -8,10 +8,10 @@ import {INGREDIENT_PRICE} from '../../Constants/index';
 export default class BurgerBuilder extends Component {
     state = {
         ingredients: {
-            salad: 1,
-            bacon: 1,
-            cheese: 2,
-            meat: 2,
+            salad: 0,
+            bacon: 0,
+            cheese: 0,
+            meat: 0,
         },
         totalPrice : 4,
     }
@@ -47,10 +47,21 @@ export default class BurgerBuilder extends Component {
     }
 
     render() {
+        const disabledInfo = {
+            ...this.state.ingredients
+        }
+        for(let key in disabledInfo){
+            disabledInfo[key] = disabledInfo[key] <= 0;
+        }
         return (
             <Aux>
                 <Burger ingredients={this.state.ingredients}/>
-                <BuildControls addIngredient={this.addIngredientHandler} removeIngredient={this.removeIngredientHandler}/>
+                <BuildControls 
+                addIngredient={this.addIngredientHandler} 
+                removeIngredient={this.removeIngredientHandler}
+                disabledInfo={disabledInfo}
+                />
+                <h1>PRICE: {this.state.totalPrice}</h1>
             </Aux>
         )
     }
