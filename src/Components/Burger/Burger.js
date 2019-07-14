@@ -25,7 +25,7 @@ const Burger = props => {
   );
   return (
     <div className={classes.Burger}>
-      {transformedIngredients > 0 ? (
+      {transformedIngredients.length > 0 ? (
         <>
           <BurgerIngredients type="bread-top" />
           {transformedIngredients}
