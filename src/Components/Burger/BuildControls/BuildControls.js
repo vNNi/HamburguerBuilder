@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import BuildControl from "./BuildControl/BuildControl";
 import classes from "./BuildControls.css";
 
-
 const buildControls = props => {
   const controls = [
     { label: "Salad", type: "salad" },
@@ -24,6 +23,12 @@ const buildControls = props => {
         disabled={props.disabledInfo[ctrl.type]}
         />
       })}
+      <button 
+      className={classes.OrderButton} 
+      disabled={props.purcheaseAble}
+      onClick={props.handleBuyModal}>
+        ORDER NOW
+      </button>
     </div>
   );
 };
@@ -38,6 +43,8 @@ buildControls.propType = {
     meat: PropTypes.bool,
   }).isRequired,
   price: PropTypes.number.isRequired,
+  purcheaseAble: PropTypes.bool.isRequired,
+  handleBuyModal: PropTypes.func.isRequired,
 }
 
 export default buildControls;
