@@ -4,6 +4,8 @@ import Aux from '../../hoc/Aux';
 import Burger from '../../Components/Burger/Burger';
 import BuildControls from '../../Components/Burger/BuildControls/BuildControls';
 import {INGREDIENT_PRICE} from '../../Constants/index';
+import Modal from '../../Components/UI/Modal/Modal';
+import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
 
 export default class BurgerBuilder extends Component {
     state = {
@@ -14,7 +16,24 @@ export default class BurgerBuilder extends Component {
             meat: 0,
         },
         totalPrice : 4,
+        purcheaseAble: false,
+        showBuyModal: false,
     }
+
+    updatePurcheaseAble = (ingredientes = {}) => {
+        const sum = Object.keys(ingredientes)
+        .map((igKey)=>{
+            return ingredientes[igKey];
+        })
+        .reduce((acc, el) => {
+            return acc + el;
+        });
+
+        this.setState({
+            purcheaseAble: sum > 0,
+        });
+    }
+
     addIngredientHandler = (type) => {
         const oldIngredientCount = this.state.ingredients[type];
         const updatedIngredientCount = {
@@ -28,6 +47,7 @@ export default class BurgerBuilder extends Component {
         this.setState({
             totalPrice : this.state.totalPrice + INGREDIENT_PRICE[type]
         });
+        this.updatePurcheaseAble(updatedIngredientCount);
     }
 
     removeIngredientHandler = (type) => {
@@ -42,8 +62,15 @@ export default class BurgerBuilder extends Component {
             });
             this.setState({
                 totalPrice: this.state.totalPrice - INGREDIENT_PRICE[type],
-            })
+            });
+            this.updatePurcheaseAble(updatedIngredientCount);
         }   
+    }
+    
+    handleBuyModal = () => {
+        this.setState({
+            showBuyModal : !this.state.showBuyModal,
+        })
     }
 
     render() {
@@ -55,12 +82,20 @@ export default class BurgerBuilder extends Component {
         }
         return (
             <Aux>
+                {this.state.showBuyModal ?
+                    <Modal>
+                        <OrderSummary ingredients={this.state.ingredients}/>
+                    </Modal> : null
+                }
+                
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls 
                 addIngredient={this.addIngredientHandler} 
                 removeIngredient={this.removeIngredientHandler}
                 disabledInfo={disabledInfo}
                 price={this.state.totalPrice}
+                purcheaseAble={!this.state.purcheaseAble}
+                handleBuyModal={this.handleBuyModal}
                 />
             </Aux>
         )
