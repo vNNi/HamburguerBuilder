@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Button from '../../UI/Button/Button';
+
 const orderSummary = (props) => {
     const ingredientSummary = Object.keys(props.ingredients)
     .map((igKey, i)=>{
@@ -14,6 +16,8 @@ const orderSummary = (props) => {
                 {ingredientSummary}
             </ul>
             <p>Finalizar Compra?</p>
+            <Button btnType="Danger" clicked={props.cancelPurchease}>CANCEL</Button>
+            <Button btnType="Success" clicked={props.continuePurchease}>CONTINUAR</Button>
         </>
     );
 }
