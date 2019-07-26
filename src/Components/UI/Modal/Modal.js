@@ -19,6 +19,7 @@ const modal = React.memo((props) => {
 
 modal.propTypes = {
     show: PropTypes.bool.isRequired,
+    closeModal: PropTypes.func.isRequired
 }
 
 export default modal;

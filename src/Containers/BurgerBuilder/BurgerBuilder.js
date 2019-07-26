@@ -8,8 +8,8 @@ import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
 import { orders } from '../../axios';
 import Laoding from '../../Components/UI/Loading/Loading';
-
-export default class BurgerBuilder extends Component {
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+class BurgerBuilder extends Component {
     state = {
         ingredients: {
             salad: 0,
@@ -145,3 +145,5 @@ export default class BurgerBuilder extends Component {
         )
     }
 }
+
+export default withErrorHandler(BurgerBuilder, orders);
