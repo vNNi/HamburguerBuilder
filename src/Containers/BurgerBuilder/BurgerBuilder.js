@@ -20,7 +20,9 @@ class BurgerBuilder extends Component {
   componentDidMount() {
     orders.get("/ingredients.json").then(res => {
       this.setState({ ingredients: res.data });
-    });
+    }).catch(e => {
+        console.log('error', e);
+    })
   }
   updatePurcheaseAble = (ingredientes = {}) => {
     const sum = Object.keys(ingredientes)
