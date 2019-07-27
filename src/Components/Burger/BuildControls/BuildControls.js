@@ -27,7 +27,7 @@ const buildControls = props => {
       className={classes.OrderButton} 
       disabled={props.purcheaseAble}
       onClick={props.handleBuyModal}>
-        ORDER NOW
+        Comprar Agora!
       </button>
     </div>
   );
