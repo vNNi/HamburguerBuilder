@@ -16,7 +16,6 @@ class BurgerBuilder extends Component {
     super(props);
   }
   state = {
-    totalPrice: 4,
     purcheaseAble: false,
     showBuyModal: false,
     loading: false
@@ -41,22 +40,6 @@ class BurgerBuilder extends Component {
     this.setState({
       purcheaseAble: sum > 0
     });
-  };
-
-  addIngredientHandler = type => {
-    const oldIngredientCount = this.state.ingredients[type];
-    const updatedIngredientCount = {
-      ...this.state.ingredients
-    };
-    updatedIngredientCount[type] = oldIngredientCount + 1;
-
-    this.setState({
-      ingredients: updatedIngredientCount
-    });
-    this.setState({
-      totalPrice: this.state.totalPrice + INGREDIENT_PRICE[type]
-    });
-    this.updatePurcheaseAble(updatedIngredientCount);
   };
 
   removeIngredientHandler = type => {
@@ -93,7 +76,7 @@ class BurgerBuilder extends Component {
     for (let i in this.props.ingrs) {
       queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
     }
-    queryParams.push('price=' + this.state.totalPrice);
+    queryParams.push('price=' + this.props.price);
     const queryString = queryParams.join('&');
     this.props.history.push({
       pathname: '/checkout',
@@ -128,7 +111,7 @@ class BurgerBuilder extends Component {
             addIngredient={this.props.onIngredientAdded}
             removeIngredient={this.props.onIngredientRemoved}
             disabledInfo={disabledInfo}
-            price={this.state.totalPrice}
+            price={this.props.price}
             purcheaseAble={!this.state.purcheaseAble}
             handleBuyModal={this.handleBuyModal}
           />
@@ -139,7 +122,7 @@ class BurgerBuilder extends Component {
           ingredients={this.props.ingrs}
           cancelPurchease={this.closeModal}
           continuePurchease={this.continuePurchease}
-          price={this.state.totalPrice}
+          price={this.props.price}
         />
       );
     }
@@ -157,6 +140,7 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ingrs: state.ingredients,
+    price: state.totalPrice,
   };
 };
 
