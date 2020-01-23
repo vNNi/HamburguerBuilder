@@ -16,7 +16,6 @@ class BurgerBuilder extends Component {
     super(props);
   }
   state = {
-    purcheaseAble: false,
     showBuyModal: false,
     loading: false
   };
@@ -26,7 +25,6 @@ class BurgerBuilder extends Component {
     // }).catch(e => {
     //   console.log('error', e);
     // })
-    console.log(this.props.ingrs);
   }
   updatePurcheaseAble = (ingredientes = {}) => {
     const sum = Object.keys(ingredientes)
@@ -37,26 +35,7 @@ class BurgerBuilder extends Component {
         return acc + el;
       });
 
-    this.setState({
-      purcheaseAble: sum > 0
-    });
-  };
-
-  removeIngredientHandler = type => {
-    const oldIngredientCount = this.state.ingredients[type];
-    if (oldIngredientCount > 0) {
-      const updatedIngredientCount = {
-        ...this.state.ingredients
-      };
-      updatedIngredientCount[type] = oldIngredientCount - 1;
-      this.setState({
-        ingredients: updatedIngredientCount
-      });
-      this.setState({
-        totalPrice: this.state.totalPrice - INGREDIENT_PRICE[type]
-      });
-      this.updatePurcheaseAble(updatedIngredientCount);
-    }
+    return sum > 0;
   };
 
   handleBuyModal = () => {
@@ -72,16 +51,7 @@ class BurgerBuilder extends Component {
   };
 
   continuePurchease = () => {
-    const queryParams = [];
-    for (let i in this.props.ingrs) {
-      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
-    }
-    queryParams.push('price=' + this.props.price);
-    const queryString = queryParams.join('&');
-    this.props.history.push({
-      pathname: '/checkout',
-      search: `?${queryString}`,
-    });
+    this.props.history.push('/checkout')
   };
 
   render() {
@@ -112,7 +82,7 @@ class BurgerBuilder extends Component {
             removeIngredient={this.props.onIngredientRemoved}
             disabledInfo={disabledInfo}
             price={this.props.price}
-            purcheaseAble={!this.state.purcheaseAble}
+            purcheaseAble={!this.updatePurcheaseAble(this.props.ingrs)}
             handleBuyModal={this.handleBuyModal}
           />
         </>
