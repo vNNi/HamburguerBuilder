@@ -4,27 +4,23 @@ import { connect } from 'react-redux';
 import Aux from "../../hoc/Aux";
 import Burger from "../../Components/Burger/Burger";
 import BuildControls from "../../Components/Burger/BuildControls/BuildControls";
-import { INGREDIENT_PRICE } from "../../Constants/index";
 import Modal from "../../Components/UI/Modal/Modal";
 import OrderSummary from "../../Components/Burger/OrderSummary/OrderSummary";
 import { orders } from "../../axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import Loading from "../../Components/UI/Loading/Loading";
-import {addIngredient, removeIngredient} from '../../store/actions/index';
+import {addIngredient, removeIngredient, fetchIngredients} from '../../store/actions/index';
+
 class BurgerBuilder extends Component {
   constructor(props){
     super(props);
   }
   state = {
     showBuyModal: false,
-    loading: false
   };
-  componentDidMount() {
-    // orders.get("/ingredients.json").then(res => {
-    //   this.setState({ ingredients: res.data });
-    // }).catch(e => {
-    //   console.log('error', e);
-    // })
+ componentDidMount() {
+    this.props.onFetchIngridients();
+    console.log(this.props);
   }
   updatePurcheaseAble = (ingredientes = {}) => {
     const sum = Object.keys(ingredientes)
@@ -62,11 +58,7 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
 
-    let burger = (
-      <center>
-        <Loading />
-      </center>
-    );
+    let burger = this.props.error ? <p>Os ingredientes não foram carregador</p> : null;
     let orderSummary = (
       <center>
         <Loading />
@@ -111,6 +103,7 @@ const mapStateToProps = state => {
   return {
     ingrs: state.ingredients,
     price: state.totalPrice,
+    error: state.error,
   };
 };
 
@@ -118,6 +111,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: (ingredientName) => dispatch(addIngredient(ingredientName)),
     onIngredientRemoved: (ingredientName) => dispatch(removeIngredient(ingredientName)),
+    onFetchIngridients: () => dispatch(fetchIngredients())
   }
 };
 
