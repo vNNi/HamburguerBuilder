@@ -32,7 +32,6 @@ export const fetchIngredients = () => {
     return dispatch => {
        orders.get('/ingredients.json')
        .then(response => {
-           console.log('called', response.data)
             dispatch(setIngredients(response.data))
        })
        .catch (e => {

@@ -6,6 +6,8 @@ import classes from "./ContactData.css";
 import { orders } from "../../axios";
 import Loading from "../../Components/UI/Loading/Loading";
 import Input from "../../Components/UI/Input/Input";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import { purchaseBurgerPost } from '../../store/actions'
 
 class ContactData extends Component {
   state = {
@@ -87,7 +89,7 @@ class ContactData extends Component {
                       {value: 'cheapest', displayValue: 'Cheapest'}
                   ]
               },
-              value: '',
+              value: 'fastest',
               validation: {},
               valid: true
           }
@@ -108,14 +110,7 @@ class ContactData extends Component {
           price: this.props.price,
           orderData: formData
       }
-      orders.post( '/orders.json', order )
-          .then( response => {
-              this.setState( { loading: false } );
-              this.props.history.push( '/' );
-          } )
-          .catch( error => {
-              this.setState( { loading: false } );
-          } );
+      this.props.onPurchase(order);
   }
 
   checkValidity(value, rules) {
@@ -192,7 +187,7 @@ class ContactData extends Component {
               <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
           </form>
       );
-      if ( this.state.loading ) {
+      if ( this.props.loading ) {
           form = <Loading />;
       }
       return (
@@ -206,9 +201,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingrs: state.ingredients,
-        price: state.totalPrice,
+        ingrs: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading,
     }
 }
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        onPurchase: (orderData) => dispatch(purchaseBurgerPost(orderData)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, orders));
