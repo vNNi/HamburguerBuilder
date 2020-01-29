@@ -4,6 +4,7 @@ const initialState = {
     loading: false,
     error: false,
     orders: [],
+    purchased: false,
 }
 
 const reducer = (state = initialState, action) => {
@@ -13,6 +14,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 orders: state.orders.concat(newOrder),
+                purchased: true,
             }
         case actionTypes.SET_INGREDIENTS_FAILED:
             return {
@@ -22,13 +24,19 @@ const reducer = (state = initialState, action) => {
         case actionTypes.PURCHASE_BURGER_END:
             return {
                 ...state,
-                loading: false
+                loading: false,
             }
         case actionTypes.PURCHASE_BURGER_START:
             return {
                 ...state,
                 loading: true,
             }
+        case actionTypes.PURCHASE_INIT:{
+            return {
+                ...state,
+                purchased: false,
+            }
+        }
         default:
             return state;
     }

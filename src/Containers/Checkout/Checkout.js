@@ -17,7 +17,9 @@ class Checkout extends Component {
   };
 
   render() {
-    const summary = this.props.ingrs ? (<div>
+    const purchasedRedirect = this.props.purchased ? <Redirect to="/"/> : null
+    let summary = this.props.ingrs ? (<div>
+      {purchasedRedirect}
       <CheckoutSummary
         ingredients={this.props.ingrs}
         cancelled={this.onCheckoutCancelled}
@@ -35,7 +37,8 @@ class Checkout extends Component {
 const mapPropsToState = state => {
   return {
     ingrs: state.burgerBuilder.ingredients,
-    price: state.burgerBuilder.totalPrice
+    price: state.burgerBuilder.totalPrice,
+    purchased: state.order.purchased,
   }
 };
 export default connect(mapPropsToState)(Checkout);

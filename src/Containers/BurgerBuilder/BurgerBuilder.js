@@ -9,7 +9,7 @@ import OrderSummary from "../../Components/Burger/OrderSummary/OrderSummary";
 import { orders } from "../../axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import Loading from "../../Components/UI/Loading/Loading";
-import {addIngredient, removeIngredient, fetchIngredients} from '../../store/actions/index';
+import {addIngredient, removeIngredient, fetchIngredients, purchaseInit} from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
   constructor(props){
@@ -47,7 +47,8 @@ class BurgerBuilder extends Component {
   };
 
   continuePurchease = () => {
-    this.props.history.push('/checkout')
+    this.props.onInitPurchase();
+    this.props.history.push('/checkout');
   };
 
   render() {
@@ -111,7 +112,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: (ingredientName) => dispatch(addIngredient(ingredientName)),
     onIngredientRemoved: (ingredientName) => dispatch(removeIngredient(ingredientName)),
-    onFetchIngridients: () => dispatch(fetchIngredients())
+    onFetchIngridients: () => dispatch(fetchIngredients()),
+    onInitPurchase: () => dispatch(purchaseInit()),
   }
 };
 

@@ -29,7 +29,7 @@ export const purchaseBurgerFailed = (error) => {
     }
 }
 
-export const purchaseBurgerPost = (orderData ) => {
+export const purchaseBurgerPost = (orderData) => {
     return dispatch => {
         dispatch(purchaseBurgerStart())
         orders.post( '/orders.json', orderData )
@@ -42,5 +42,11 @@ export const purchaseBurgerPost = (orderData ) => {
           .finally(()=>{
             dispatch(purchaseBurgerEnd())
           });
+    }
+}
+
+export const purchaseInit = () => {
+    return {
+        type: actionTypes.PURCHASE_INIT,
     }
 }
