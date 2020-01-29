@@ -50,3 +50,25 @@ export const purchaseInit = () => {
         type: actionTypes.PURCHASE_INIT,
     }
 }
+
+export const getAllOrdersSuccess = (orders) => {
+    return {
+        type: actionTypes.GET_ALL_ORDERS_SUCCESS,
+        orders,
+    }
+}
+
+export const getAllOrders = () => {
+    return dispatch => {
+        orders.get('/orders.json').then(res => {
+            const ordersFetched = [];
+            for (let key in res.data) {
+                ordersFetched.push({
+                ...res.data[key],
+                id: key
+                });
+            }
+            dispatch(getAllOrdersSuccess(ordersFetched))
+        });
+    }
+}

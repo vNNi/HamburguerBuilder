@@ -5,6 +5,8 @@ const initialState = {
     error: false,
     orders: [],
     purchased: false,
+    allOrders: [],
+    loadingOrders: false,
 }
 
 const reducer = (state = initialState, action) => {
@@ -31,12 +33,22 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: true,
             }
-        case actionTypes.PURCHASE_INIT:{
+        case actionTypes.PURCHASE_INIT:
             return {
                 ...state,
                 purchased: false,
             }
-        }
+        case actionTypes.GET_ALL_ORDERS_SUCCESS:
+            return {
+                ...state,
+                allOrders: action.orders,
+                loadingOrders: false,
+            }
+        case actionTypes.GET_ALL_ORDERS:
+            return {
+                ...state,
+                loadingOrders: true,
+            }
         default:
             return state;
     }
