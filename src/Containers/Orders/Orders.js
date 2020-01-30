@@ -8,10 +8,6 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { getAllOrders } from '../../store/actions'
 
 class Orders extends Component {
-  state = {
-    orders: [],
-    loading: true
-  };
   componentDidMount() {
     this.props.onFetchOrders();
   }

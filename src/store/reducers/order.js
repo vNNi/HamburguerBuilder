@@ -44,10 +44,16 @@ const reducer = (state = initialState, action) => {
                 allOrders: action.orders,
                 loadingOrders: false,
             }
-        case actionTypes.GET_ALL_ORDERS:
+        case actionTypes.GET_ALL_ORDERS_INIT:
             return {
                 ...state,
                 loadingOrders: true,
+            }
+        case actionTypes.GET_ALL_ORDERS_FAILED:
+            return {
+                ...state,
+                error: action.error,
+                loadingOrders: false,
             }
         default:
             return state;

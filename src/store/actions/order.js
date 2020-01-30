@@ -58,17 +58,33 @@ export const getAllOrdersSuccess = (orders) => {
     }
 }
 
+export const getAllOrdersFailed = (error) => {
+    return {
+        type: actionTypes.GET_ALL_ORDERS_FAILED,
+        error,
+    }
+}
+
+export const getAllOrdersInit = () => {
+    return {
+        type: actionTypes.GET_ALL_ORDERS_INIT,
+    }
+}
+
 export const getAllOrders = () => {
     return dispatch => {
+        dispatch(getAllOrdersInit());
         orders.get('/orders.json').then(res => {
             const ordersFetched = [];
             for (let key in res.data) {
                 ordersFetched.push({
                 ...res.data[key],
                 id: key
-                });
-            }
+            });
+        }
             dispatch(getAllOrdersSuccess(ordersFetched))
-        });
+        }).catch((error)=>{
+            dispatch(getAllOrdersFailed(error));
+        })
     }
 }
