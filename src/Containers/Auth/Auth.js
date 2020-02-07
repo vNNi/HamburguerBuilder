@@ -7,6 +7,9 @@ import classes from './Auth.css'
 import { auth }  from '../../store/actions'
 
 class Auth extends Component {
+    constructor(props){
+        super(props)
+    }
 
     state = {
         loginForm: {
@@ -38,7 +41,8 @@ class Auth extends Component {
                 valid: false,
                 touched: false
             }
-        }
+        },
+        signup: true, 
     }
 
     checkValidity(value, rules) {
@@ -91,6 +95,19 @@ class Auth extends Component {
         this.setState({loginForm: updatedOrderForm, formIsValid: formIsValid});
     }
 
+    handleAuth = (e) => {
+        e.preventDefault();
+        this.props.onAuth(
+            this.state.loginForm.email.value,
+            this.state.loginForm.password.value,
+            this.state.signup
+        )
+    }
+    handleSwitchForm = (e) => {
+        e.preventDefault();
+        console.log(this.state.signup)
+        this.setState((prevState) => { return {signup: !prevState.signup}})
+    }
     render (){ 
         const formElementsArray = [];
         for (let key in this.state.loginForm) {
@@ -117,8 +134,11 @@ class Auth extends Component {
                 <Button 
                 btnType="Success"
                 disabled={!this.state.formIsValid}
-                clicked={()=>{this.props.onAuth(this.state.loginForm.email.value, this.state.loginForm.password.value)}}>
+                clicked={this.handleAuth}>
                     LOGIN
+                </Button>
+                <Button btnType="Danger" clicked={this.handleSwitchForm}>
+                    switch to { this.state.signup ? 'signin': 'signup'}
                 </Button>
             </form>
          </div>)
@@ -127,7 +147,7 @@ class Auth extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAuth: (email, password) => {dispatch(auth({email, password}))}
+        onAuth: (email, password, signup) => {dispatch(auth({email, password, signup}))}
     }
 }
 
