@@ -16,3 +16,7 @@ export {
     getAllOrders, 
     getAllOrdersFailed 
 } from './order'
+
+export {
+    auth
+} from './auth'

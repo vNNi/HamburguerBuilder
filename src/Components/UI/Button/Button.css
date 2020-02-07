@@ -9,7 +9,17 @@
     margin: 10px;
     font-weight: bold;
 }
-
+.Button:disabled {
+    background-color: transparent;
+    border: none;
+    color: grey;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+}
 .Button:first-of-type {
     margin-left: 0;
     padding-left: 0;
